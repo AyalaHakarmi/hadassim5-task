@@ -41,10 +41,32 @@ To find the top N most frequent error types:
 We used inheritance to handle CSV and Parquet differently while sharing common logic.
 This separation makes the code easier to test and extend.
 
-### Why Not Use a Stream?
-While streaming is memory-efficient, we needed access to full-day data in order to:
-- Detect duplicates
-- Clean based on global criteria (e.g. value range)
-- Group by hour accurately
+### Why Not Use Stream Processing?
+While stream processing is often more memory-efficient (as it processes the file line-by-line), it is **not suitable in this case** for the following reasons:
 
-Therefore, we opted to read the entire file (or day-chunk) into memory before processing.
+1. **Duplicate detection** requires having access to all timestamps seen so far.
+   This would require either:
+   - Keeping all seen values in memory (which is similar to loading the file), or
+   - Writing intermediate data structures, which adds complexity and I/O cost.
+
+2. **Hourly aggregation** requires grouping by hour, which cannot be reliably done if we only hold one line at a time — since we may need to merge or average data across multiple lines within the same hour.
+
+3. **Data validation** (checking for missing or out-of-range values) may require comparing data across rows or detecting trends, which stream processing doesn’t allow efficiently.
+
+**Conclusion:**
+Stream processing sacrifices structure and flexibility for memory efficiency. In this case, we prioritize correctness and simplicity over memory optimization, especially since the daily chunks are manageable in memory.
+
+### Real-Time Stream Processing (Question 3, Part B)
+If the data arrives in a live stream rather than from a file, we must update the hourly averages incrementally, without having all the data in advance.
+
+To handle this, we can maintain a running aggregation structure for each hour:
+
+- Use a dictionary `hour → (sum, count)` to store the total value and number of values for each hour seen so far.
+- For each incoming data point:
+  1. Convert the timestamp to the relevant hour (e.g., floor to the hour).
+  2. Update the `sum` and `count` for that hour.
+  3. The average is computed as `sum / count`.
+
+This approach allows constant-time updates and supports real-time streaming without needing to load historical data into memory.
+
+**Note:** At the end of the stream (or periodically), we can output the computed averages per hour.
