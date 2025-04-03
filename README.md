@@ -38,7 +38,7 @@ To find the top N most frequent error types:
 
 ---
 
-## ✅ Part B – Time Series Processing (`part_A/part_b_time_series`)
+## ✅ Part A – Time Series Processing (`part_A/part_b_time_series`)
 **Files:**
 - `base_processor.py` — base class for CSV and Parquet processors
 - `csv_processor.py` — processor for `.csv` time series files
@@ -71,9 +71,9 @@ This approach allows constant-time updates and supports real-time streaming with
 
 **Note:** At the end of the stream (or periodically), we can output the computed averages per hour.
 
----
+--- 
 
-## ✅ Part C: Family Tree
+## ✅ Part B: Family Tree
 
 ### Step 1 - Creating the `people` Table:
 - The user is prompted whether to use an existing `people.db` file or generate a new example.
@@ -93,3 +93,6 @@ This approach allows constant-time updates and supports real-time streaming with
 - Both tables (`people`, `family_relations`) are stored in the database file `people.db`.
 - The user can choose to create a new table or use an existing one.
 - An option is provided to display the content of each table in a clean format.
+
+## ✅ Part C: 
+- Answers to the  questions from Part C are provided in the file part_C/answers.md.
