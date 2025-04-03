@@ -73,7 +73,23 @@ This approach allows constant-time updates and supports real-time streaming with
 
 ---
 
-## 🕒 Part C – Theoretical Questions (`part_C/`)
-Answers to the theoretical questions are written in `answers.md`, organized by chapter and question number.
+## ✅ Part C: Family Tree
 
----
+### Step 1 - Creating the `people` Table:
+- The user is prompted whether to use an existing `people.db` file or generate a new example.
+- If no file is provided, we create a small mock dataset of people with fields: `Person_Id`, `Personal_Name`, `Family_Name`, `Gender`, `Father_Id`, `Mother_Id`, `Spouse_Id`.
+- The table is saved to a **SQLite database**.
+- **Note:** The generated dataset is only a small example for demonstration purposes.
+
+### Step 2 - Completing Spouse Relations:
+- Ensures that if person A lists person B as a spouse, then B also lists A.
+- Handles asymmetric or missing spouse data.
+
+### Step 3 - Building Family Tree:
+- A new table `family_relations` is created.
+- For each person, direct relationships (parents, children, siblings, spouses) are extracted and stored with a relation type.
+
+### Output:
+- Both tables (`people`, `family_relations`) are stored in the database file `people.db`.
+- The user can choose to create a new table or use an existing one.
+- An option is provided to display the content of each table in a clean format.
