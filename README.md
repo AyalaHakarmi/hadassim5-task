@@ -94,5 +94,7 @@ This approach allows constant-time updates and supports real-time streaming with
 - The user can choose to create a new table or use an existing one.
 - An option is provided to display the content of each table in a clean format.
 
+---
+
 ## ✅ Part C: 
 - Answers to the  questions from Part C are provided in the file part_C/answers.md.
